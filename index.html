@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parabéns Manu</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#2c1810 0%,#4a2c2a 50%,#3d2117 100%);
+      min-height:100vh; padding:40px 20px; position:relative; overflow-x:hidden;
+    }
+
+    .container { max-width:1000px; margin:0 auto; position:relative; }
+
+    .timeline-header { text-align:center; margin-bottom:60px; color:#f5f5f5; }
+    .timeline-header h1 {
+      font-family:'Dancing Script',cursive; font-size:3.5rem; font-weight:700;
+      margin-bottom:10px; text-shadow:2px 2px 4px rgba(0,0,0,.5); color:#e8b4b8;
+    }
+    .timeline-header p { font-size:1.1rem; opacity:.9; font-weight:300; margin-bottom:30px; }
+
+    .birthday-message {
+      background:rgba(255,255,255,.1); backdrop-filter:blur(15px);
+      border:2px solid rgba(232,180,184,.3); border-radius:20px; padding:30px;
+      margin:0 auto; max-width:600px; box-shadow:0 10px 30px rgba(0,0,0,.3);
+      position:relative; overflow:hidden;
+    }
+    .birthday-message::before{content:'🎉';position:absolute;top:5px;left:20px;font-size:24px;opacity:.7;}
+    .birthday-message::after{content:'🎂';position:absolute;top:5px;right:20px;font-size:24px;opacity:.7;}
+    .birthday-message h2{
+      font-family:'Dancing Script',cursive;font-size:2.5rem;color:#e8b4b8;margin-bottom:15px;
+      text-shadow:1px 1px 3px rgba(0,0,0,.3);
+    }
+    .birthday-message .message-text{font-size:1.2rem;line-height:1.6;color:#f0f0f0;font-weight:300;opacity:.95;text-align:center;}
+
+    .timeline{ position:relative; padding:20px 0; }
+
+    .timeline::before{
+      content:''; position:absolute; left:50%; top:0; bottom:0; width:3px;
+      background:linear-gradient(to bottom,#e8b4b8,#d4a5a9,#c09599);
+      transform:translateX(-50%); border-radius:2px; box-shadow:0 0 10px rgba(232,180,184,.3); z-index:1;
+    }
+
+    .timeline-item{
+      position:relative; margin-bottom:80px; display:flex; align-items:center; opacity:0;
+      animation:slideIn .8s ease forwards; width:100%;
+    }
+    .timeline-item:nth-child(1){animation-delay:.2s;}
+    .timeline-item:nth-child(2){animation-delay:.4s;}
+    .timeline-item:nth-child(3){animation-delay:.6s;}
+    .timeline-item:nth-child(4){animation-delay:.8s;}
+    .timeline-item:nth-child(5){animation-delay:1.0s;}
+    .timeline-item:nth-child(6){animation-delay:1.2s;}
+    .timeline-item:nth-child(7){animation-delay:1.4s;}
+    .timeline-item:nth-child(8){animation-delay:1.6s;}
+
+    .timeline-item:nth-child(odd){justify-content:flex-start;}
+    .timeline-item:nth-child(odd) .timeline-content{margin-right:auto;margin-left:0;order:1;}
+    .timeline-item:nth-child(odd) .timeline-image{order:2;margin-left:40px;}
+
+    .timeline-item:nth-child(even){justify-content:flex-end;}
+    .timeline-item:nth-child(even) .timeline-content{margin-left:auto;margin-right:0;order:2;}
+    .timeline-item:nth-child(even) .timeline-image{order:1;margin-right:40px;}
+
+    @keyframes slideIn{from{opacity:0;transform:translateX(-50px);}to{opacity:1;transform:translateX(0);}}
+
+    .timeline-content{
+      background:rgba(255,255,255,.1); backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.2); padding:25px; border-radius:15px; width:450px; position:relative;
+      box-shadow:0 20px 25px rgba(0,0,0,.3); transition:all .3s ease; z-index:2;
+    }
+    .timeline-content:hover{transform:translateY(-5px); box-shadow:0 12px 35px rgba(0,0,0,.4); background:rgba(255,255,255,.15);}
+    .timeline-content h3{color:#e8b4b8;font-size:1.3rem;font-weight:500;margin-bottom:12px;font-family:'Dancing Script',cursive;}
+    .timeline-content p{color:#f0f0f0;font-size:.95rem;line-height:1.6;font-weight:300;opacity:.9;}
+    .timeline-content::before{content:'';position:absolute;top:50%;width:0;height:0;border:12px solid transparent;transform:translateY(-50%);}
+    .timeline-item:nth-child(odd) .timeline-content::before{right:-24px;border-left-color:rgba(255,255,255,.1);}
+    .timeline-item:nth-child(even) .timeline-content::before{left:-24px;border-right-color:rgba(255,255,255,.1);}
+
+    .timeline-image{
+      width:350px;height:350px;border-radius:20px;position:relative;overflow:hidden;
+      box-shadow:0 10px 30px rgba(0,0,0,.4); border:3px solid rgba(232,180,184,.6);
+      background:linear-gradient(45deg,#e8b4b8,#d4a5a9); display:flex; align-items:center; justify-content:center;
+      transition:all .4s ease; cursor:zoom-in; z-index:2;
+    }
+    .timeline-image:hover{transform:scale(1.05); box-shadow:0 15px 40px rgba(0,0,0,.5); border-color:#e8b4b8;}
+    .timeline-image img{width:100%;height:100%;object-fit:cover;border-radius:17px;transition:all .3s ease;}
+    .timeline-image:hover img{transform:scale(1.1);}
+    .timeline-image::before{font-size:60px;opacity:.6;position:absolute;z-index:1;color:rgba(255,255,255,.8);}
+
+    .timeline-item::after{
+      content:''; position:absolute; left:50%; top:50%; width:16px;height:16px;background:#e8b4b8;
+      border:4px solid #f5f5f5; border-radius:50%; transform:translate(-50%,-50%); z-index:3; box-shadow:0 0 10px rgba(232,180,184,.5);
+    }
+
+    @media (max-width:768px){
+      .timeline-header h1{font-size:2.5rem;}
+      .birthday-message{padding:25px;margin:0 15px;}
+      .birthday-message h2{font-size:2rem;}
+      .birthday-message .message-text{font-size:1rem;}
+      .timeline-item{flex-direction:column !important;text-align:center;margin-bottom:60px;justify-content:center !important;}
+      .timeline-item:nth-child(odd) .timeline-image,
+      .timeline-item:nth-child(even) .timeline-image{order:1;margin:0 0 20px 0;}
+      .timeline-content{width:100%;max-width:350px;margin:0 !important;order:2;}
+      .timeline-content::before{display:none;}
+      .timeline-image{width:180px;height:180px;}
+      .timeline::before{left:50px;}
+      .timeline-item::after{left:50px;}
+    }
+
+    @media (max-width:480px){
+      .timeline-image{width:150px;height:150px;}
+      .timeline-image::before{font-size:45px;}
+      .timeline-content{max-width:280px;padding:20px;}
+    }
+
+    .container{animation:fadeIn 1s ease-in;}
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+    /* ===== Modal ===== */
+    .modal{
+      display:none; position:fixed; z-index:999; padding-top:60px; left:0; top:0; width:100%; height:100%;
+      overflow:auto; background:rgba(0,0,0,.9);
+    }
+    .modal-content{
+      margin:auto; display:block; max-width:90%; max-height:80vh; border-radius:12px;
+      box-shadow:0 0 30px rgba(255,255,255,.3); animation:zoomIn .3s ease;
+    }
+    .close{
+      position:absolute; top:25px; right:35px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; transition:.3s;
+    }
+    .close:hover{ color:#e8b4b8; }
+    @keyframes zoomIn{from{transform:scale(.5);opacity:0;}to{transform:scale(1);opacity:1;}}
+        .footer {
+      text-align: center;
+      padding: 25px 10px;
+      margin-top: 60px;
+      color: #f5f5f5;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      background: rgba(255,255,255,.05);
+      border-top: 1px solid rgba(232,180,184,.3);
+      box-shadow: 0 -5px 15px rgba(0,0,0,.4);
+    }
+    .footer span {
+      color: #e8b4b8;
+      text-shadow: 1px 1px 3px rgba(0,0,0,.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="timeline-header">
+      <h1>Princesa Manu😜</h1>
+      <p>Uma pequena homenagem a pessoa especial que você é</p>
+
+      <div class="birthday-message">
+        <h2>Feliz Aniversário Gatinha</h2>
+        <div class="message-text">
+          Que Deus continue te abençoando hoje e sempre muita saúde paz e toda felicidade do mundo.
+          Que você continue sendo essa pessoa muito especial e carinhosa onde
+          mesmo com a distância você se torna especial a cada momento que passa. Aproveita teu dia🎈✨🎈✨
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Primeira foto não poderia ser diferente😜🤣</h3>
+        </div>
+        <div class="timeline-image">
+          <img src="imgs/primeiraFoto.jpeg" alt="Momento 1">
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Me segurando pra tirar foto (eu salvando)</h3>
+        </div>
+        <div class="timeline-image">
+            <img src="imgs/fotoLegal.jpeg" alt="Momento 2">
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Você não sabe tirar foto🫵🏼🤣</h3>
+        </div>
+        <div class="timeline-image">
+            <img src="imgs/fotoBoa.jpeg" alt="Momento 3">
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Colado como de costume...</h3>
+        </div>
+        <div class="timeline-image">
+            <img src="imgs/fotoBonita.jpeg" alt="Momento 4">
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Gabi fazendo a boa da foto</h3>
+        </div>
+        <div class="timeline-image">
+          <img src="imgs/comGabi.jpeg" alt="Momento 5">
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <h3>Chave de ouro, nossa melhor foto até agora. Te espero em Breve❤️</h3>
+        </div>
+        <div class="timeline-image">
+          <img src="imgs/ultimaFoto.jpeg" alt="Momento 6">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal DEVE aparecer no HTML antes do <script> -->
+  <div id="imageModal" class="modal" aria-hidden="true" role="dialog">
+    <span class="close" aria-label="Fechar">&times;</span>
+    <img class="modal-content" id="modalImage" alt="Imagem ampliada">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Animação ao entrar na tela
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateX(0)';
+          }
+        });
+      }, { threshold: 0.3 });
+      timelineItems.forEach(item => observer.observe(item));
+
+      // ===== Modal =====
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      const closeBtn = modal.querySelector('.close');
+
+      // Abre modal ao clicar nas imagens que TÊM src
+      document.querySelectorAll('.timeline-image img').forEach(img => {
+        const hasSrc = (img.getAttribute('src') || '').trim().length > 0;
+        if (!hasSrc) return; // ignora imagens vazias/ocultas
+
+        // garante visível caso venha sem display inline
+        img.style.display = 'block';
+
+        img.addEventListener('click', () => {
+          modalImg.src = img.src;
+          modal.style.display = 'block';
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden'; // trava scroll atrás
+        });
+      });
+
+      // Fecha modal
+      function closeModal() {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'block') closeModal(); });
+
+      // Efeito "zoomzinho" suave no card (opcional)
+      document.querySelectorAll('.timeline-image').forEach(card => {
+        card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
+        card.addEventListener('mouseup',   () => card.style.transform = '');
+        card.addEventListener('mouseleave',() => card.style.transform = '');
+      });
+    });
+  </script>
+  <footer class="footer">
+      <p>Com carinho, Enzo Rener 💌</p>
+    </footer>
+</body>
+</html>
