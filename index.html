@@ -8,155 +8,357 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
 
-    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --rose:        #e8b4b8;
+      --rose-soft:   #d4a5a9;
+      --rose-deep:   #c09599;
+      --ink:         #f5f5f5;
+      --ink-soft:    #f0f0f0;
+      --glass:       rgba(255, 255, 255, .10);
+      --glass-strong:rgba(255, 255, 255, .15);
+      --glass-border:rgba(255, 255, 255, .20);
+      --rose-border: rgba(232, 180, 184, .30);
+      --shadow:      rgba(0, 0, 0, .30);
+      --shadow-strong: rgba(0, 0, 0, .45);
+      --bg-1: #2c1810;
+      --bg-2: #4a2c2a;
+      --bg-3: #3d2117;
+      --line-w: 3px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family:'Poppins',sans-serif;
-      background:linear-gradient(135deg,#2c1810 0%,#4a2c2a 50%,#3d2117 100%);
-      min-height:100vh; padding:40px 20px; position:relative; overflow-x:hidden;
+      font-family: 'Poppins', sans-serif;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    .container { max-width:1000px; margin:0 auto; position:relative; }
+    /* ===== Decoração de fundo (parallax) ===== */
+    .bg-decor {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-decor span {
+      position: absolute;
+      font-size: 2rem;
+      opacity: .12;
+      will-change: transform;
+      user-select: none;
+    }
+    .bg-decor span:nth-child(1) { top: 12%;  left: 8%;  font-size: 2.4rem; }
+    .bg-decor span:nth-child(2) { top: 28%;  left: 82%; font-size: 3rem; }
+    .bg-decor span:nth-child(3) { top: 48%;  left: 15%; font-size: 2rem; }
+    .bg-decor span:nth-child(4) { top: 63%;  left: 78%; font-size: 2.6rem; }
+    .bg-decor span:nth-child(5) { top: 80%;  left: 20%; font-size: 2.2rem; }
+    .bg-decor span:nth-child(6) { top: 90%;  left: 70%; font-size: 3rem; }
 
-    .timeline-header { text-align:center; margin-bottom:60px; color:#f5f5f5; }
+    .container { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* ===== Cabeçalho ===== */
+    .timeline-header { text-align: center; margin-bottom: 60px; }
     .timeline-header h1 {
-      font-family:'Dancing Script',cursive; font-size:3.5rem; font-weight:700;
-      margin-bottom:10px; text-shadow:2px 2px 4px rgba(0,0,0,.5); color:#e8b4b8;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--rose);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, .5);
     }
-    .timeline-header p { font-size:1.1rem; opacity:.9; font-weight:300; margin-bottom:30px; }
+    .timeline-header p { font-size: 1.1rem; opacity: .9; font-weight: 300; margin-bottom: 30px; }
 
     .birthday-message {
-      background:rgba(255,255,255,.1); backdrop-filter:blur(15px);
-      border:2px solid rgba(232,180,184,.3); border-radius:20px; padding:30px;
-      margin:0 auto; max-width:600px; box-shadow:0 10px 30px rgba(0,0,0,.3);
-      position:relative; overflow:hidden;
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+      background: var(--glass);
+      backdrop-filter: blur(15px);
+      border: 2px solid var(--rose-border);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px var(--shadow);
+      overflow: hidden;
     }
-    .birthday-message::before{content:'🎉';position:absolute;top:5px;left:20px;font-size:24px;opacity:.7;}
-    .birthday-message::after{content:'🎂';position:absolute;top:5px;right:20px;font-size:24px;opacity:.7;}
-    .birthday-message h2{
-      font-family:'Dancing Script',cursive;font-size:2.5rem;color:#e8b4b8;margin-bottom:15px;
-      text-shadow:1px 1px 3px rgba(0,0,0,.3);
+    .birthday-message::before { content: '🎉'; position: absolute; top: 5px; left: 20px;  font-size: 24px; opacity: .7; }
+    .birthday-message::after  { content: '🎂'; position: absolute; top: 5px; right: 20px; font-size: 24px; opacity: .7; }
+    .birthday-message h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: var(--rose);
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
     }
-    .birthday-message .message-text{font-size:1.2rem;line-height:1.6;color:#f0f0f0;font-weight:300;opacity:.95;text-align:center;}
-
-    .timeline{ position:relative; padding:20px 0; }
-
-    .timeline::before{
-      content:''; position:absolute; left:50%; top:0; bottom:0; width:3px;
-      background:linear-gradient(to bottom,#e8b4b8,#d4a5a9,#c09599);
-      transform:translateX(-50%); border-radius:2px; box-shadow:0 0 10px rgba(232,180,184,.3); z-index:1;
-    }
-
-    .timeline-item{
-      position:relative; margin-bottom:80px; display:flex; align-items:center; opacity:0;
-      animation:slideIn .8s ease forwards; width:100%;
-    }
-    .timeline-item:nth-child(1){animation-delay:.2s;}
-    .timeline-item:nth-child(2){animation-delay:.4s;}
-    .timeline-item:nth-child(3){animation-delay:.6s;}
-    .timeline-item:nth-child(4){animation-delay:.8s;}
-    .timeline-item:nth-child(5){animation-delay:1.0s;}
-    .timeline-item:nth-child(6){animation-delay:1.2s;}
-    .timeline-item:nth-child(7){animation-delay:1.4s;}
-    .timeline-item:nth-child(8){animation-delay:1.6s;}
-
-    .timeline-item:nth-child(odd){justify-content:flex-start;}
-    .timeline-item:nth-child(odd) .timeline-content{margin-right:auto;margin-left:0;order:1;}
-    .timeline-item:nth-child(odd) .timeline-image{order:2;margin-left:40px;}
-
-    .timeline-item:nth-child(even){justify-content:flex-end;}
-    .timeline-item:nth-child(even) .timeline-content{margin-left:auto;margin-right:0;order:2;}
-    .timeline-item:nth-child(even) .timeline-image{order:1;margin-right:40px;}
-
-    @keyframes slideIn{from{opacity:0;transform:translateX(-50px);}to{opacity:1;transform:translateX(0);}}
-
-    .timeline-content{
-      background:rgba(255,255,255,.1); backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,.2); padding:25px; border-radius:15px; width:450px; position:relative;
-      box-shadow:0 20px 25px rgba(0,0,0,.3); transition:all .3s ease; z-index:2;
-    }
-    .timeline-content:hover{transform:translateY(-5px); box-shadow:0 12px 35px rgba(0,0,0,.4); background:rgba(255,255,255,.15);}
-    .timeline-content h3{color:#e8b4b8;font-size:1.3rem;font-weight:500;margin-bottom:12px;font-family:'Dancing Script',cursive;}
-    .timeline-content p{color:#f0f0f0;font-size:.95rem;line-height:1.6;font-weight:300;opacity:.9;}
-    .timeline-content::before{content:'';position:absolute;top:50%;width:0;height:0;border:12px solid transparent;transform:translateY(-50%);}
-    .timeline-item:nth-child(odd) .timeline-content::before{right:-24px;border-left-color:rgba(255,255,255,.1);}
-    .timeline-item:nth-child(even) .timeline-content::before{left:-24px;border-right-color:rgba(255,255,255,.1);}
-
-    .timeline-image{
-      width:350px;height:350px;border-radius:20px;position:relative;overflow:hidden;
-      box-shadow:0 10px 30px rgba(0,0,0,.4); border:3px solid rgba(232,180,184,.6);
-      background:linear-gradient(45deg,#e8b4b8,#d4a5a9); display:flex; align-items:center; justify-content:center;
-      transition:all .4s ease; cursor:zoom-in; z-index:2;
-    }
-    .timeline-image:hover{transform:scale(1.05); box-shadow:0 15px 40px rgba(0,0,0,.5); border-color:#e8b4b8;}
-    .timeline-image img{width:100%;height:100%;object-fit:cover;border-radius:17px;transition:all .3s ease;}
-    .timeline-image:hover img{transform:scale(1.1);}
-    .timeline-image::before{font-size:60px;opacity:.6;position:absolute;z-index:1;color:rgba(255,255,255,.8);}
-
-    .timeline-item::after{
-      content:''; position:absolute; left:50%; top:50%; width:16px;height:16px;background:#e8b4b8;
-      border:4px solid #f5f5f5; border-radius:50%; transform:translate(-50%,-50%); z-index:3; box-shadow:0 0 10px rgba(232,180,184,.5);
+    .birthday-message .message-text {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      font-weight: 300;
+      opacity: .95;
+      text-align: center;
     }
 
-    @media (max-width:768px){
-      .timeline-header h1{font-size:2.5rem;}
-      .birthday-message{padding:25px;margin:0 15px;}
-      .birthday-message h2{font-size:2rem;}
-      .birthday-message .message-text{font-size:1rem;}
-      .timeline-item{flex-direction:column !important;text-align:center;margin-bottom:60px;justify-content:center !important;}
-      .timeline-item:nth-child(odd) .timeline-image,
-      .timeline-item:nth-child(even) .timeline-image{order:1;margin:0 0 20px 0;}
-      .timeline-content{width:100%;max-width:350px;margin:0 !important;order:2;}
-      .timeline-content::before{display:none;}
-      .timeline-image{width:180px;height:180px;}
-      .timeline::before{left:50px;}
-      .timeline-item::after{left:50px;}
+    /* ===== Divisor de seção ("quebra") ===== */
+    .timeline-divider {
+      text-align: center;
+      margin: 20px auto 70px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .timeline-divider.is-visible { opacity: 1; transform: translateY(0); }
+    .timeline-divider h2 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.4rem;
+      color: var(--rose);
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
+      margin-bottom: 6px;
+    }
+    .timeline-divider p { font-weight: 300; opacity: .85; font-size: 1rem; }
+    .timeline-divider .ornament {
+      display: inline-block;
+      margin-top: 14px;
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--rose), transparent);
     }
 
-    @media (max-width:480px){
-      .timeline-image{width:150px;height:150px;}
-      .timeline-image::before{font-size:45px;}
-      .timeline-content{max-width:280px;padding:20px;}
+    /* ===== Linha do tempo ===== */
+    .timeline { position: relative; padding: 20px 0; }
+
+    /* trilho base */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: var(--line-w);
+      transform: translateX(-50%);
+      background: rgba(232, 180, 184, .18);
+      border-radius: 2px;
+      z-index: 1;
+    }
+    /* preenchimento que acompanha o scroll */
+    .timeline-progress {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: var(--line-w);
+      height: 0;
+      transform: translateX(-50%);
+      background: linear-gradient(to bottom, var(--rose), var(--rose-soft), var(--rose-deep));
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(232, 180, 184, .5);
+      z-index: 1;
     }
 
-    .container{animation:fadeIn 1s ease-in;}
-    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    .timeline-item {
+      position: relative;
+      width: 100%;
+      margin-bottom: 80px;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .timeline-item.is-visible { opacity: 1; transform: translateX(0) !important; }
 
-    /* ===== Modal ===== */
-    .modal{
-      display:none; position:fixed; z-index:999; padding-top:60px; left:0; top:0; width:100%; height:100%;
-      overflow:auto; background:rgba(0,0,0,.9);
+    .timeline-item:nth-child(odd)  { justify-content: flex-start; transform: translateX(-60px); }
+    .timeline-item:nth-child(odd) .timeline-content { order: 1; margin-right: auto; margin-left: 0; }
+    .timeline-item:nth-child(odd) .timeline-image   { order: 2; margin-left: 40px; }
+
+    .timeline-item:nth-child(even) { justify-content: flex-end; transform: translateX(60px); }
+    .timeline-item:nth-child(even) .timeline-content { order: 2; margin-left: auto; margin-right: 0; }
+    .timeline-item:nth-child(even) .timeline-image   { order: 1; margin-right: 40px; }
+
+    .timeline-content {
+      position: relative;
+      width: 450px;
+      padding: 25px;
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      box-shadow: 0 20px 25px var(--shadow);
+      transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+      z-index: 2;
     }
-    .modal-content{
-      margin:auto; display:block; max-width:90%; max-height:80vh; border-radius:12px;
-      box-shadow:0 0 30px rgba(255,255,255,.3); animation:zoomIn .3s ease;
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      background: var(--glass-strong);
+      box-shadow: 0 12px 35px var(--shadow-strong);
     }
-    .close{
-      position:absolute; top:25px; right:35px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; transition:.3s;
+    .timeline-content h3 {
+      color: var(--rose);
+      font-size: 1.3rem;
+      font-weight: 500;
+      font-family: 'Dancing Script', cursive;
     }
-    .close:hover{ color:#e8b4b8; }
-    @keyframes zoomIn{from{transform:scale(.5);opacity:0;}to{transform:scale(1);opacity:1;}}
-        .footer {
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border: 12px solid transparent;
+      transform: translateY(-50%);
+    }
+    .timeline-item:nth-child(odd)  .timeline-content::before { right: -24px; border-left-color: var(--glass); }
+    .timeline-item:nth-child(even) .timeline-content::before { left: -24px;  border-right-color: var(--glass); }
+
+    .timeline-image {
+      width: 350px;
+      height: 350px;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid rgba(232, 180, 184, .6);
+      background: linear-gradient(45deg, var(--rose), var(--rose-soft));
+      box-shadow: 0 10px 30px var(--shadow-strong);
+      transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
+      cursor: zoom-in;
+      z-index: 2;
+    }
+    .timeline-image:hover {
+      transform: scale(1.05);
+      border-color: var(--rose);
+      box-shadow: 0 15px 40px var(--shadow-strong);
+    }
+    .timeline-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 17px;
+      display: block;
+      transition: transform .3s ease;
+    }
+    .timeline-image:hover img { transform: scale(1.1); }
+
+    /* nó central */
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      background: var(--rose);
+      border: 4px solid var(--ink);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(.6);
+      box-shadow: 0 0 10px rgba(232, 180, 184, .5);
+      transition: transform .4s ease;
+      z-index: 3;
+    }
+    .timeline-item.is-visible::after { transform: translate(-50%, -50%) scale(1); }
+
+    /* ===== Rodapé ===== */
+    .footer {
+      position: relative;
+      z-index: 1;
       text-align: center;
       padding: 25px 10px;
       margin-top: 60px;
-      color: #f5f5f5;
+      color: var(--ink);
       font-family: 'Dancing Script', cursive;
       font-size: 1.5rem;
-      background: rgba(255,255,255,.05);
-      border-top: 1px solid rgba(232,180,184,.3);
-      box-shadow: 0 -5px 15px rgba(0,0,0,.4);
+      background: rgba(255, 255, 255, .05);
+      border-top: 1px solid var(--rose-border);
+      box-shadow: 0 -5px 15px var(--shadow-strong);
     }
-    .footer span {
-      color: #e8b4b8;
-      text-shadow: 1px 1px 3px rgba(0,0,0,.4);
+    .footer span { color: var(--rose); text-shadow: 1px 1px 3px rgba(0, 0, 0, .4); }
+
+    /* ===== Modal ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      padding-top: 60px;
+      overflow: auto;
+      background: rgba(0, 0, 0, .9);
+    }
+    .modal-content {
+      display: block;
+      margin: auto;
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, .3);
+      animation: zoomIn .3s ease;
+    }
+    .close {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color .3s;
+    }
+    .close:hover { color: var(--rose); }
+    @keyframes zoomIn { from { transform: scale(.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* ===== Responsivo ===== */
+    @media (max-width: 768px) {
+      .timeline-header h1 { font-size: 2.5rem; }
+      .birthday-message { padding: 25px; margin: 0 15px; }
+      .birthday-message h2 { font-size: 2rem; }
+      .birthday-message .message-text { font-size: 1rem; }
+      .timeline-divider h2 { font-size: 2rem; }
+
+      .timeline-item {
+        flex-direction: column !important;
+        text-align: center;
+        justify-content: center !important;
+        margin-bottom: 60px;
+      }
+      .timeline-item:nth-child(odd),
+      .timeline-item:nth-child(even) { transform: translateY(40px); }
+      .timeline-item.is-visible { transform: translateY(0) !important; }
+      .timeline-item:nth-child(odd) .timeline-image,
+      .timeline-item:nth-child(even) .timeline-image { order: 1; margin: 0 0 20px 0; }
+      .timeline-content { width: 100%; max-width: 350px; margin: 0 !important; order: 2; }
+      .timeline-content::before { display: none; }
+      .timeline-image { width: 180px; height: 180px; }
+      .timeline::before,
+      .timeline-progress { left: 50px; }
+      .timeline-item::after { left: 50px; }
+    }
+
+    @media (max-width: 480px) {
+      .timeline-image { width: 150px; height: 150px; }
+      .timeline-content { max-width: 280px; padding: 20px; }
+    }
+
+    /* respeita quem prefere menos movimento */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .timeline-item,
+      .timeline-divider { transition: opacity .3s ease; transform: none !important; }
+      .bg-decor span { display: none; }
     }
   </style>
 </head>
 
 <body>
+  <!-- Decoração de fundo com parallax -->
+  <div class="bg-decor" aria-hidden="true">
+    <span>🎈</span><span>✨</span><span>💖</span><span>🎈</span><span>✨</span><span>💖</span>
+  </div>
+
   <div class="container">
-    <div class="timeline-header">
+    <header class="timeline-header">
       <h1>Princesa Manu😜</h1>
       <p>Uma pequena homenagem a pessoa especial que você é</p>
 
@@ -169,107 +371,168 @@
           🎈✨🎈✨um beijo cheio de saudades🎈✨🎈✨
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="timeline">
-      <div class="timeline-item">
+    <!-- ===== Nossos momentos ===== -->
+    <section class="timeline" aria-label="Linha do tempo dos momentos">
+      <div class="timeline-progress" aria-hidden="true"></div>
+
+      <article class="timeline-item">
         <div class="timeline-content">
           <h3>Primeira foto não poderia ser diferente😜🤣</h3>
         </div>
         <div class="timeline-image">
-          <img src="imgs/primeiraFoto.jpeg" alt="Momento 1">
+          <img src="imgs/primeiraFoto.jpeg" alt="Momento 1" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <div class="timeline-item">
+      <article class="timeline-item">
         <div class="timeline-content">
           <h3>Me segurando pra tirar foto (eu salvando😜)</h3>
         </div>
         <div class="timeline-image">
-            <img src="imgs/fotoLegal.jpeg" alt="Momento 2">
+          <img src="imgs/fotoLegal.jpeg" alt="Momento 2" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <div class="timeline-item">
+      <article class="timeline-item">
         <div class="timeline-content">
           <h3>Você não sabe tirar foto🫵🏼🤣</h3>
         </div>
         <div class="timeline-image">
-            <img src="imgs/fotoBoa.jpeg" alt="Momento 3">
+          <img src="imgs/fotoBoa.jpeg" alt="Momento 3" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <div class="timeline-item">
+      <article class="timeline-item">
         <div class="timeline-content">
           <h3>Colado como de costume...</h3>
         </div>
         <div class="timeline-image">
-            <img src="imgs/fotoBonita.jpeg" alt="Momento 4">
+          <img src="imgs/fotoBonita.jpeg" alt="Momento 4" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <div class="timeline-item">
+      <article class="timeline-item">
         <div class="timeline-content">
           <h3>Gabi fazendo a boa da foto</h3>
         </div>
         <div class="timeline-image">
-          <img src="imgs/comGabi.jpeg" alt="Momento 5">
+          <img src="imgs/comGabi.jpeg" alt="Momento 5" loading="lazy">
         </div>
-      </div>
+      </article>
 
-      <div class="timeline-item">
+      <article class="timeline-item">
         <div class="timeline-content">
           <h3>Chave de ouro, nossa melhor foto até agora. Te espero em Breve❤️</h3>
         </div>
         <div class="timeline-image">
-          <img src="imgs/ultimaFoto.jpeg" alt="Momento 6">
+          <img src="imgs/ultimaFoto.jpeg" alt="Momento 6" loading="lazy">
         </div>
-      </div>
+      </article>
+    </section>
+
+    <!-- ===== Quebra para os momentos mais recentes ===== -->
+    <div class="timeline-divider">
+      <h2>Momentos mais recentes</h2>
+      <p>Novos capítulos da nossa história</p>
+      <span class="ornament"></span>
     </div>
+
+    <!-- ===== Momentos mais recentes (novas fotos entram aqui) ===== -->
+    <section class="timeline" aria-label="Momentos mais recentes">
+      <div class="timeline-progress" aria-hidden="true"></div>
+
+      <!--
+        As novas fotos que você enviar serão adicionadas aqui, no mesmo
+        formato dos itens acima:
+
+        <article class="timeline-item">
+          <div class="timeline-content">
+            <h3>Legenda do momento</h3>
+          </div>
+          <div class="timeline-image">
+            <img src="imgs/NOME_DA_FOTO.jpeg" alt="Momento" loading="lazy">
+          </div>
+        </article>
+      -->
+    </section>
   </div>
 
-  <!-- Modal DEVE aparecer no HTML antes do <script> -->
-  <div id="imageModal" class="modal" aria-hidden="true" role="dialog">
+  <!-- Modal de imagem ampliada -->
+  <div id="imageModal" class="modal" aria-hidden="true" role="dialog" aria-label="Imagem ampliada">
     <span class="close" aria-label="Fechar">&times;</span>
     <img class="modal-content" id="modalImage" alt="Imagem ampliada">
   </div>
 
+  <footer class="footer">
+    <p>Com carinho, <span>Enzo Rener</span> 💌</p>
+  </footer>
+
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Animação ao entrar na tela
-      const timelineItems = document.querySelectorAll('.timeline-item');
-      const observer = new IntersectionObserver((entries) => {
+    document.addEventListener('DOMContentLoaded', () => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ===== Revela itens e divisores ao entrar na tela ===== */
+      const revealTargets = document.querySelectorAll('.timeline-item, .timeline-divider');
+      const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateX(0)';
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.3 });
-      timelineItems.forEach(item => observer.observe(item));
+      }, { threshold: 0.25 });
+      revealTargets.forEach(el => revealObserver.observe(el));
 
-      // ===== Modal =====
+      /* ===== Efeitos de scroll: linha do tempo preenchendo + parallax ===== */
+      const timelines = document.querySelectorAll('.timeline');
+      const decorItems = document.querySelectorAll('.bg-decor span');
+      let ticking = false;
+
+      function onScroll() {
+        const viewH = window.innerHeight;
+
+        // preenchimento de cada linha do tempo conforme a rolagem passa por ela
+        timelines.forEach(tl => {
+          const progress = tl.querySelector('.timeline-progress');
+          if (!progress) return;
+          const rect = tl.getBoundingClientRect();
+          const filled = Math.min(Math.max(viewH * 0.5 - rect.top, 0), rect.height);
+          progress.style.height = filled + 'px';
+        });
+
+        // parallax suave das decorações de fundo
+        if (!reduceMotion) {
+          const y = window.scrollY;
+          decorItems.forEach((el, i) => {
+            const speed = (i % 3 + 1) * 0.15;
+            el.style.transform = 'translateY(' + (y * speed) + 'px)';
+          });
+        }
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      }, { passive: true });
+      onScroll();
+
+      /* ===== Modal de imagem ===== */
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const closeBtn = modal.querySelector('.close');
 
-      // Abre modal ao clicar nas imagens que TÊM src
-      document.querySelectorAll('.timeline-image img').forEach(img => {
-        const hasSrc = (img.getAttribute('src') || '').trim().length > 0;
-        if (!hasSrc) return; // ignora imagens vazias/ocultas
-
-        // garante visível caso venha sem display inline
-        img.style.display = 'block';
-
-        img.addEventListener('click', () => {
-          modalImg.src = img.src;
-          modal.style.display = 'block';
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.style.overflow = 'hidden'; // trava scroll atrás
-        });
-      });
-
-      // Fecha modal
+      function openModal(src) {
+        modalImg.src = src;
+        modal.style.display = 'block';
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
       function closeModal() {
         modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
@@ -277,20 +540,18 @@
         document.body.style.overflow = '';
       }
 
+      document.querySelectorAll('.timeline-image img').forEach(img => {
+        if (!(img.getAttribute('src') || '').trim()) return;
+        img.addEventListener('click', () => openModal(img.src));
+      });
+
       closeBtn.addEventListener('click', closeModal);
       modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'block') closeModal(); });
-
-      // Efeito "zoomzinho" suave no card (opcional)
-      document.querySelectorAll('.timeline-image').forEach(card => {
-        card.addEventListener('mousedown', () => card.style.transform = 'scale(0.98)');
-        card.addEventListener('mouseup',   () => card.style.transform = '');
-        card.addEventListener('mouseleave',() => card.style.transform = '');
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.style.display === 'block') closeModal();
       });
     });
   </script>
-  <footer class="footer">
-      <p>Com carinho, Enzo Rener 💌</p>
-    </footer>
 </body>
+
 </html>
