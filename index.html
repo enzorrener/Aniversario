@@ -6,626 +6,530 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parabéns Manu</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500&display=swap');
 
     :root {
-      --rose:        #e8b4b8;
-      --rose-soft:   #d4a5a9;
-      --rose-deep:   #c09599;
-      --ink:         #f5f5f5;
-      --ink-soft:    #f0f0f0;
-      --glass:       rgba(255, 255, 255, .10);
-      --glass-strong:rgba(255, 255, 255, .15);
-      --glass-border:rgba(255, 255, 255, .20);
-      --rose-border: rgba(232, 180, 184, .30);
-      --shadow:      rgba(0, 0, 0, .30);
-      --shadow-strong: rgba(0, 0, 0, .45);
-      --bg-1: #2c1810;
-      --bg-2: #4a2c2a;
-      --bg-3: #3d2117;
-      --line-w: 3px;
+      --bg-0: #170f13;
+      --bg-1: #241820;
+      --bg-2: #3a2630;
+      --rose: #e8b4b8;
+      --gold: #e0b487;
+      --cream: #f5efe9;
+      --text: #f3ece8;
+      --muted: rgba(243, 236, 232, .68);
+      --line: rgba(232, 180, 184, .28);
+      --glass: rgba(255, 255, 255, .06);
+      --glass-strong: rgba(255, 255, 255, .12);
+      --shadow: 0 24px 60px rgba(0, 0, 0, .5);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html, body { height: 100%; }
 
     body {
       font-family: 'Poppins', sans-serif;
-      color: var(--ink);
-      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
-      min-height: 100vh;
-      padding: 40px 20px;
-      position: relative;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 80% -10%, rgba(224, 180, 132, .18), transparent 60%),
+        radial-gradient(1000px 600px at 10% 110%, rgba(232, 180, 184, .16), transparent 60%),
+        linear-gradient(160deg, var(--bg-0) 0%, var(--bg-1) 55%, var(--bg-2) 100%);
+      background-attachment: fixed;
       overflow-x: hidden;
     }
 
-    /* ===== Decoração de fundo (parallax) ===== */
-    .bg-decor {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+    /* estrutura de telas (sem scroll infinito: capa, album, fecho) */
+    .screens {
+      height: 100vh;
+      overflow-y: auto;
+      scroll-snap-type: y proximity;
+      scroll-behavior: smooth;
     }
-    .bg-decor span {
-      position: absolute;
-      font-size: 2rem;
-      opacity: .12;
-      will-change: transform;
-      user-select: none;
-    }
-    .bg-decor span:nth-child(1) { top: 12%;  left: 8%;  font-size: 2.4rem; }
-    .bg-decor span:nth-child(2) { top: 28%;  left: 82%; font-size: 3rem; }
-    .bg-decor span:nth-child(3) { top: 48%;  left: 15%; font-size: 2rem; }
-    .bg-decor span:nth-child(4) { top: 63%;  left: 78%; font-size: 2.6rem; }
-    .bg-decor span:nth-child(5) { top: 80%;  left: 20%; font-size: 2.2rem; }
-    .bg-decor span:nth-child(6) { top: 90%;  left: 70%; font-size: 3rem; }
-
-    .container { max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
-
-    /* ===== Cabeçalho ===== */
-    .timeline-header { text-align: center; margin-bottom: 60px; }
-    .timeline-header h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: var(--rose);
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, .5);
-    }
-    .timeline-header p { font-size: 1.1rem; opacity: .9; font-weight: 300; margin-bottom: 30px; }
-
-    .birthday-message {
+    .screen {
+      min-height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
       position: relative;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 30px;
-      background: var(--glass);
-      backdrop-filter: blur(15px);
-      border: 2px solid var(--rose-border);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px var(--shadow);
-      overflow: hidden;
-    }
-    .birthday-message::before { content: '🎉'; position: absolute; top: 5px; left: 20px;  font-size: 24px; opacity: .7; }
-    .birthday-message::after  { content: '🎂'; position: absolute; top: 5px; right: 20px; font-size: 24px; opacity: .7; }
-    .birthday-message h2 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.5rem;
-      color: var(--rose);
-      margin-bottom: 15px;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
-    }
-    .birthday-message .message-text {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      color: var(--ink-soft);
-      font-weight: 300;
-      opacity: .95;
-      text-align: center;
     }
 
-    /* ===== Divisor de seção ("quebra") ===== */
-    .timeline-divider {
-      text-align: center;
-      margin: 20px auto 70px;
+    /* corações flutuando (discreto) */
+    .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .petals span {
+      position: absolute;
+      top: -40px;
+      font-size: 18px;
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity .8s ease, transform .8s ease;
+      animation: fall linear infinite;
     }
-    .timeline-divider.is-visible { opacity: 1; transform: translateY(0); }
-    .timeline-divider h2 {
+    @keyframes fall {
+      0%   { transform: translateY(-40px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: .5; }
+      90%  { opacity: .5; }
+      100% { transform: translateY(105vh) rotate(240deg); opacity: 0; }
+    }
+
+    /* ===== Capa ===== */
+    .cover { text-align: center; z-index: 1; }
+    .cover .eyebrow {
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      color: var(--gold);
+      margin-bottom: 18px;
+      opacity: .9;
+    }
+    .cover h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: clamp(2.8rem, 8vw, 5.2rem);
+      line-height: 1.05;
+      letter-spacing: .01em;
+    }
+    .cover h1 .name {
+      display: block;
       font-family: 'Dancing Script', cursive;
-      font-size: 2.4rem;
-      color: var(--rose);
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, .4);
-      margin-bottom: 6px;
+      font-weight: 700;
+      font-size: clamp(3.4rem, 11vw, 6.6rem);
+      background: linear-gradient(100deg, var(--rose), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-top: 2px;
     }
-    .timeline-divider p { font-weight: 300; opacity: .85; font-size: 1rem; }
-    .timeline-divider .ornament {
-      display: inline-block;
-      margin-top: 14px;
-      width: 120px;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--rose), transparent);
+    .cover .rule {
+      width: 90px; height: 1px; margin: 26px auto;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
     }
+    .message {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 26px 28px;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+    }
+    .message p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.28rem;
+      line-height: 1.7;
+      color: var(--cream);
+    }
+    .cta {
+      margin-top: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 30px;
+      border: 1px solid var(--gold);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--cream);
+      font-family: 'Poppins', sans-serif;
+      font-size: .95rem;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: background .3s ease, transform .3s ease, color .3s ease;
+    }
+    .cta:hover { background: linear-gradient(100deg, var(--rose), var(--gold)); color: #2a1a20; transform: translateY(-2px); }
+    .scroll-hint { margin-top: 26px; font-size: .8rem; color: var(--muted); animation: bob 2s ease-in-out infinite; }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
-    /* ===== Linha do tempo ===== */
-    .timeline { position: relative; padding: 20px 0; }
-
-    /* trilho base */
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: var(--line-w);
-      transform: translateX(-50%);
-      background: rgba(232, 180, 184, .18);
-      border-radius: 2px;
-      z-index: 1;
-    }
-    /* preenchimento que acompanha o scroll */
-    .timeline-progress {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      width: var(--line-w);
-      height: 0;
-      transform: translateX(-50%);
-      background: linear-gradient(to bottom, var(--rose), var(--rose-soft), var(--rose-deep));
-      border-radius: 2px;
-      box-shadow: 0 0 12px rgba(232, 180, 184, .5);
-      z-index: 1;
-    }
-
-    .timeline-item {
-      position: relative;
+    /* ===== Álbum ===== */
+    .album { z-index: 1; width: 100%; }
+    .album-inner {
       width: 100%;
-      margin-bottom: 80px;
+      max-width: 1080px;
+      height: min(90vh, 900px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .album-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .chapter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--rose);
+      letter-spacing: .02em;
+    }
+    .counter { font-size: .85rem; color: var(--muted); letter-spacing: .12em; }
+
+    .stage {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      background: #0d0a0c;
+      cursor: zoom-in;
+    }
+    .slide {
+      position: absolute;
+      inset: 0;
       display: flex;
       align-items: center;
+      justify-content: center;
       opacity: 0;
-      transition: opacity .8s ease, transform .8s ease;
+      transition: opacity .7s ease;
+      pointer-events: none;
     }
-    .timeline-item.is-visible { opacity: 1; transform: translateX(0) !important; }
-
-    .timeline-item:nth-child(odd)  { justify-content: flex-start; transform: translateX(-60px); }
-    .timeline-item:nth-child(odd) .timeline-content { order: 1; margin-right: auto; margin-left: 0; }
-    .timeline-item:nth-child(odd) .timeline-image   { order: 2; margin-left: 40px; }
-
-    .timeline-item:nth-child(even) { justify-content: flex-end; transform: translateX(60px); }
-    .timeline-item:nth-child(even) .timeline-content { order: 2; margin-left: auto; margin-right: 0; }
-    .timeline-item:nth-child(even) .timeline-image   { order: 1; margin-right: 40px; }
-
-    .timeline-content {
-      position: relative;
-      width: 450px;
-      padding: 25px;
-      background: var(--glass);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      border-radius: 15px;
-      box-shadow: 0 20px 25px var(--shadow);
-      transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
-      z-index: 2;
-    }
-    .timeline-content:hover {
-      transform: translateY(-5px);
-      background: var(--glass-strong);
-      box-shadow: 0 12px 35px var(--shadow-strong);
-    }
-    .timeline-content h3 {
-      color: var(--rose);
-      font-size: 1.3rem;
-      font-weight: 500;
-      font-family: 'Dancing Script', cursive;
-    }
-    .timeline-content::before {
-      content: '';
+    .slide.active { opacity: 1; pointer-events: auto; }
+    .slide .blur {
       position: absolute;
-      top: 50%;
-      width: 0;
-      height: 0;
-      border: 12px solid transparent;
-      transform: translateY(-50%);
-    }
-    .timeline-item:nth-child(odd)  .timeline-content::before { right: -24px; border-left-color: var(--glass); }
-    .timeline-item:nth-child(even) .timeline-content::before { left: -24px;  border-right-color: var(--glass); }
-
-    .timeline-image {
-      width: 350px;
-      height: 350px;
-      border-radius: 20px;
-      position: relative;
-      overflow: hidden;
-      border: 3px solid rgba(232, 180, 184, .6);
-      background: linear-gradient(45deg, var(--rose), var(--rose-soft));
-      box-shadow: 0 10px 30px var(--shadow-strong);
-      transition: transform .4s ease, box-shadow .4s ease, border-color .4s ease;
-      cursor: zoom-in;
-      z-index: 2;
-    }
-    .timeline-image:hover {
-      transform: scale(1.05);
-      border-color: var(--rose);
-      box-shadow: 0 15px 40px var(--shadow-strong);
-    }
-    .timeline-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 17px;
-      display: block;
-      transition: transform .3s ease;
-    }
-    .timeline-image:hover img { transform: scale(1.1); }
-
-    /* nó central */
-    .timeline-item::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 16px;
-      height: 16px;
-      background: var(--rose);
-      border: 4px solid var(--ink);
-      border-radius: 50%;
-      transform: translate(-50%, -50%) scale(.6);
-      box-shadow: 0 0 10px rgba(232, 180, 184, .5);
-      transition: transform .4s ease;
-      z-index: 3;
-    }
-    .timeline-item.is-visible::after { transform: translate(-50%, -50%) scale(1); }
-
-    /* ===== Rodapé ===== */
-    .footer {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      padding: 25px 10px;
-      margin-top: 60px;
-      color: var(--ink);
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.5rem;
-      background: rgba(255, 255, 255, .05);
-      border-top: 1px solid var(--rose-border);
-      box-shadow: 0 -5px 15px var(--shadow-strong);
-    }
-    .footer span { color: var(--rose); text-shadow: 1px 1px 3px rgba(0, 0, 0, .4); }
-
-    /* ===== Modal ===== */
-    .modal {
-      display: none;
-      position: fixed;
       inset: 0;
-      z-index: 999;
-      padding-top: 60px;
-      overflow: auto;
-      background: rgba(0, 0, 0, .9);
+      background-size: cover;
+      background-position: center;
+      filter: blur(34px) brightness(.45);
+      transform: scale(1.25);
     }
-    .modal-content {
-      display: block;
-      margin: auto;
-      max-width: 90%;
-      max-height: 80vh;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, .3);
-      animation: zoomIn .3s ease;
+    .slide img {
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
     }
-    .close {
+    .slide .cap {
       position: absolute;
-      top: 25px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: bold;
+      left: 0; right: 0; bottom: 0;
+      padding: 42px 26px 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, .78), transparent);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2.6vw, 1.5rem);
+      color: var(--cream);
+      text-align: center;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px; height: 46px;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(20, 14, 17, .55);
+      backdrop-filter: blur(6px);
+      color: var(--cream);
+      font-size: 1.4rem;
       cursor: pointer;
-      transition: color .3s;
+      z-index: 3;
+      transition: background .25s ease, transform .25s ease;
     }
-    .close:hover { color: var(--rose); }
-    @keyframes zoomIn { from { transform: scale(.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .arrow:hover { background: rgba(232, 180, 184, .9); color: #2a1a20; }
+    .arrow.prev { left: 14px; }
+    .arrow.next { right: 14px; }
 
-    /* ===== Responsivo ===== */
-    @media (max-width: 768px) {
-      .timeline-header h1 { font-size: 2.5rem; }
-      .birthday-message { padding: 25px; margin: 0 15px; }
-      .birthday-message h2 { font-size: 2rem; }
-      .birthday-message .message-text { font-size: 1rem; }
-      .timeline-divider h2 { font-size: 2rem; }
+    .album-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .icon-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--glass);
+      color: var(--cream);
+      font-size: .82rem;
+      cursor: pointer;
+      transition: background .25s ease;
+    }
+    .icon-btn:hover { background: var(--glass-strong); }
 
-      .timeline-item {
-        flex-direction: column !important;
-        text-align: center;
-        justify-content: center !important;
-        margin-bottom: 60px;
-      }
-      .timeline-item:nth-child(odd),
-      .timeline-item:nth-child(even) { transform: translateY(40px); }
-      .timeline-item.is-visible { transform: translateY(0) !important; }
-      .timeline-item:nth-child(odd) .timeline-image,
-      .timeline-item:nth-child(even) .timeline-image { order: 1; margin: 0 0 20px 0; }
-      .timeline-content { width: 100%; max-width: 350px; margin: 0 !important; order: 2; }
-      .timeline-content::before { display: none; }
-      .timeline-image { width: 180px; height: 180px; }
-      .timeline::before,
-      .timeline-progress { left: 50px; }
-      .timeline-item::after { left: 50px; }
+    .thumbs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 4px 2px 8px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
+    }
+    .thumbs::-webkit-scrollbar { height: 6px; }
+    .thumbs::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+    .thumb {
+      flex: 0 0 auto;
+      width: 58px; height: 58px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      opacity: .55;
+      cursor: pointer;
+      transition: opacity .25s ease, border-color .25s ease, transform .25s ease;
+    }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb.active { opacity: 1; border-color: var(--gold); transform: translateY(-2px); }
+
+    /* ===== Fecho ===== */
+    .closing { text-align: center; z-index: 1; }
+    .closing h2 {
+      font-family: 'Dancing Script', cursive;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 7vw, 3.4rem);
+      background: linear-gradient(100deg, var(--rose), var(--gold));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      margin-bottom: 18px;
+    }
+    .closing p { max-width: 560px; margin: 0 auto; font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; line-height: 1.7; color: var(--cream); }
+    .signature { margin-top: 30px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--rose); }
+
+    /* ===== Lightbox ===== */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 99;
+      background: rgba(0, 0, 0, .92);
+      align-items: center; justify-content: center;
+      padding: 30px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 94vw; max-height: 90vh; border-radius: 10px; box-shadow: 0 0 40px rgba(0, 0, 0, .6); }
+    .lightbox .close { position: absolute; top: 20px; right: 28px; font-size: 34px; color: #fff; cursor: pointer; }
+    .lightbox .close:hover { color: var(--rose); }
+
+    @media (max-width: 640px) {
+      .album-inner { height: min(88vh, 760px); }
+      .message p { font-size: 1.12rem; }
+      .arrow { width: 40px; height: 40px; font-size: 1.2rem; }
+      .thumb { width: 48px; height: 48px; }
     }
 
-    @media (max-width: 480px) {
-      .timeline-image { width: 150px; height: 150px; }
-      .timeline-content { max-width: 280px; padding: 20px; }
-    }
-
-    /* respeita quem prefere menos movimento */
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .timeline-item,
-      .timeline-divider { transition: opacity .3s ease; transform: none !important; }
-      .bg-decor span { display: none; }
+      .screens { scroll-behavior: auto; }
+      .petals span { display: none; }
+      .slide { transition: opacity .2s ease; }
+      .scroll-hint { animation: none; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Decoração de fundo com parallax -->
-  <div class="bg-decor" aria-hidden="true">
-    <span>🎈</span><span>✨</span><span>💖</span><span>🎈</span><span>✨</span><span>💖</span>
-  </div>
+  <div class="petals" aria-hidden="true"></div>
 
-  <div class="container">
-    <header class="timeline-header">
-      <h1>Princesa Manu😜</h1>
-      <p>Uma pequena homenagem a pessoa especial que você é</p>
-
-      <div class="birthday-message">
-        <h2>Feliz Aniversário Minha Gatinha</h2>
-        <div class="message-text">
-          Que Deus continue te abençoando hoje e sempre muita saúde paz e toda felicidade do mundo.
-          Que você continue sendo essa pessoa muito especial e carinhosa onde
-          mesmo com a distância você se torna especial a cada momento que passa. Aproveita teu dia
-          🎈✨🎈✨um beijo cheio de saudades🎈✨🎈✨
-        </div>
+  <main class="screens" id="screens">
+    <!-- ===== Capa ===== -->
+    <section class="screen cover" id="cover">
+      <p class="eyebrow">Uma homenagem especial</p>
+      <h1>Feliz Aniversário<span class="name">Manu</span></h1>
+      <div class="rule"></div>
+      <div class="message">
+        <p>
+          Que Deus continue te abençoando hoje e sempre, com muita saúde, paz e toda a felicidade do mundo.
+          Que você continue sendo essa pessoa especial e carinhosa, que mesmo com a distância se torna mais
+          especial a cada momento. Aproveita o teu dia. Um beijo cheio de saudades.
+        </p>
       </div>
-    </header>
-
-    <!-- ===== Nossos momentos ===== -->
-    <section class="timeline" aria-label="Linha do tempo dos momentos">
-      <div class="timeline-progress" aria-hidden="true"></div>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Primeira foto não poderia ser diferente😜🤣</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/primeiraFoto.jpeg" alt="Momento 1" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Me segurando pra tirar foto (eu salvando😜)</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/fotoLegal.jpeg" alt="Momento 2" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Você não sabe tirar foto🫵🏼🤣</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/fotoBoa.jpeg" alt="Momento 3" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Colado como de costume...</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/fotoBonita.jpeg" alt="Momento 4" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Gabi fazendo a boa da foto</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/comGabi.jpeg" alt="Momento 5" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Chave de ouro, nossa melhor foto até agora. Te espero em Breve❤️</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/ultimaFoto.jpeg" alt="Momento 6" loading="lazy">
-        </div>
-      </article>
+      <button class="cta" id="openAlbum" type="button">Abrir nosso álbum</button>
+      <p class="scroll-hint">deslize para baixo</p>
     </section>
 
-    <!-- ===== Quebra para os momentos mais recentes ===== -->
-    <div class="timeline-divider">
-      <h2>Momentos mais recentes</h2>
-      <p>Novos capítulos da nossa história</p>
-      <span class="ornament"></span>
-    </div>
+    <!-- ===== Álbum ===== -->
+    <section class="screen album" id="albumScreen">
+      <div class="album-inner">
+        <div class="album-top">
+          <span class="chapter" id="chapter">Nossos momentos</span>
+          <span class="counter" id="counter">01 / 16</span>
+        </div>
 
-    <!-- ===== Momentos mais recentes ===== -->
-    <section class="timeline" aria-label="Momentos mais recentes">
-      <div class="timeline-progress" aria-hidden="true"></div>
+        <div class="stage" id="stage">
+          <button class="arrow prev" id="prev" aria-label="Anterior" type="button">&#8249;</button>
+          <button class="arrow next" id="next" aria-label="Próximo" type="button">&#8250;</button>
+        </div>
 
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Esse sorriso que ilumina qualquer dia😍</h3>
+        <div class="album-controls">
+          <button class="icon-btn" id="autoplay" type="button">▶ Passar sozinho</button>
         </div>
-        <div class="timeline-image">
-          <img src="imgs/sorrisoJuntos.jpeg" alt="Sorrindo juntos" loading="lazy">
-        </div>
-      </article>
 
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Do meu lado é sempre o melhor lugar❤️</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/nossaSala.jpeg" alt="Momento a dois" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Aquele beijo que valeu a festa inteira😘</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/beijoFesta.jpeg" alt="Beijo na festa" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Colorada de coração, e eu apaixonado do teu lado❤️</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/coloradaDeCoracao.jpeg" alt="No jogo do Inter" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Pedindo a Deus pra abençoar cada momento nosso🙏</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/naIgreja.jpeg" alt="Na igreja" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Até tomando milkshake você rouba a cena😜</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/milkshake.jpeg" alt="Tomando milkshake" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Chuva, show e você: combinação perfeita🎶</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/showJuntos.jpeg" alt="No show juntos" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Arraiá mais bonito foi com você🌽</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/arraia.jpeg" alt="No arraiá" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>No sossego, do jeitinho que a gente ama🥰</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/aconchego.jpeg" alt="Momento de aconchego" loading="lazy">
-        </div>
-      </article>
-
-      <article class="timeline-item">
-        <div class="timeline-content">
-          <h3>Nas luzes da noite, só tinha olhos pra você✨</h3>
-        </div>
-        <div class="timeline-image">
-          <img src="imgs/luzesNeon.jpeg" alt="Nas luzes neon" loading="lazy">
-        </div>
-      </article>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
     </section>
-  </div>
 
-  <!-- Modal de imagem ampliada -->
-  <div id="imageModal" class="modal" aria-hidden="true" role="dialog" aria-label="Imagem ampliada">
-    <span class="close" aria-label="Fechar">&times;</span>
-    <img class="modal-content" id="modalImage" alt="Imagem ampliada">
-  </div>
+    <!-- ===== Fecho ===== -->
+    <section class="screen closing" id="closing">
+      <h2>Feliz aniversário, minha gatinha</h2>
+      <p>
+        Que venham muitos outros momentos como esses. Te espero em breve, com o coração cheio de saudade
+        e de amor por você.
+      </p>
+      <div class="signature">Com carinho, Enzo Rener</div>
+    </section>
+  </main>
 
-  <footer class="footer">
-    <p>Com carinho, <span>Enzo Rener</span> 💌</p>
-  </footer>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Foto ampliada">
+    <span class="close" id="lbClose" aria-label="Fechar">&times;</span>
+    <img id="lbImg" alt="Foto ampliada">
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      /* ===== Revela itens e divisores ao entrar na tela ===== */
-      const revealTargets = document.querySelectorAll('.timeline-item, .timeline-divider');
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.25 });
-      revealTargets.forEach(el => revealObserver.observe(el));
+      // Dados do álbum: capítulo separa os primeiros dos momentos mais recentes
+      const moments = [
+        { src: 'imgs/sorrisoJuntos.jpeg',      cap: 'Esse sorriso que ilumina qualquer dia 😍',      chapter: 'Momentos mais recentes' },
+        { src: 'imgs/nossaSala.jpeg',          cap: 'Do meu lado é sempre o melhor lugar ❤️',        chapter: 'Momentos mais recentes' },
+        { src: 'imgs/beijoFesta.jpeg',         cap: 'Aquele beijo que valeu a festa inteira 😘',     chapter: 'Momentos mais recentes' },
+        { src: 'imgs/coloradaDeCoracao.jpeg',  cap: 'Colorada de coração, e eu apaixonado do teu lado ❤️', chapter: 'Momentos mais recentes' },
+        { src: 'imgs/naIgreja.jpeg',           cap: 'Pedindo a Deus pra abençoar cada momento nosso 🙏', chapter: 'Momentos mais recentes' },
+        { src: 'imgs/milkshake.jpeg',          cap: 'Até tomando milkshake você rouba a cena 😜',    chapter: 'Momentos mais recentes' },
+        { src: 'imgs/showJuntos.jpeg',         cap: 'Chuva, show e você: combinação perfeita 🎶',    chapter: 'Momentos mais recentes' },
+        { src: 'imgs/arraia.jpeg',             cap: 'Arraiá mais bonito foi com você 🌽',            chapter: 'Momentos mais recentes' },
+        { src: 'imgs/aconchego.jpeg',          cap: 'No sossego, do jeitinho que a gente ama 🥰',    chapter: 'Momentos mais recentes' },
+        { src: 'imgs/luzesNeon.jpeg',          cap: 'Nas luzes da noite, só tinha olhos pra você ✨', chapter: 'Momentos mais recentes' },
+        { src: 'imgs/primeiraFoto.jpeg',       cap: 'Primeira foto não poderia ser diferente 😜',   chapter: 'Primeiros momentos' },
+        { src: 'imgs/fotoLegal.jpeg',          cap: 'Me segurando pra tirar foto (eu salvando 😜)',  chapter: 'Primeiros momentos' },
+        { src: 'imgs/fotoBoa.jpeg',            cap: 'Você não sabe tirar foto 🤣',                   chapter: 'Primeiros momentos' },
+        { src: 'imgs/fotoBonita.jpeg',         cap: 'Colado como de costume...',                     chapter: 'Primeiros momentos' },
+        { src: 'imgs/comGabi.jpeg',            cap: 'Gabi fazendo a boa da foto',                    chapter: 'Primeiros momentos' },
+        { src: 'imgs/ultimaFoto.jpeg',         cap: 'Chave de ouro, nossa melhor foto até então ❤️', chapter: 'Primeiros momentos' }
+      ];
 
-      /* ===== Efeitos de scroll: linha do tempo preenchendo + parallax ===== */
-      const timelines = document.querySelectorAll('.timeline');
-      const decorItems = document.querySelectorAll('.bg-decor span');
-      let ticking = false;
+      const stage    = document.getElementById('stage');
+      const thumbsEl = document.getElementById('thumbs');
+      const counter  = document.getElementById('counter');
+      const chapter  = document.getElementById('chapter');
+      const total    = moments.length;
+      let current    = 0;
 
-      function onScroll() {
-        const viewH = window.innerHeight;
+      // Monta slides e miniaturas
+      const slides = moments.map((m, i) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide' + (i === 0 ? ' active' : '');
 
-        // preenchimento de cada linha do tempo conforme a rolagem passa por ela
-        timelines.forEach(tl => {
-          const progress = tl.querySelector('.timeline-progress');
-          if (!progress) return;
-          const rect = tl.getBoundingClientRect();
-          const filled = Math.min(Math.max(viewH * 0.5 - rect.top, 0), rect.height);
-          progress.style.height = filled + 'px';
-        });
+        const blur = document.createElement('div');
+        blur.className = 'blur';
+        blur.style.backgroundImage = `url("${m.src}")`;
 
-        // parallax suave das decorações de fundo
-        if (!reduceMotion) {
-          const y = window.scrollY;
-          decorItems.forEach((el, i) => {
-            const speed = (i % 3 + 1) * 0.15;
-            el.style.transform = 'translateY(' + (y * speed) + 'px)';
-          });
-        }
+        const img = document.createElement('img');
+        img.src = m.src;
+        img.alt = m.cap;
+        img.loading = i === 0 ? 'eager' : 'lazy';
 
-        ticking = false;
-      }
+        const cap = document.createElement('div');
+        cap.className = 'cap';
+        cap.textContent = m.cap;
 
-      window.addEventListener('scroll', () => {
-        if (!ticking) {
-          window.requestAnimationFrame(onScroll);
-          ticking = true;
-        }
-      }, { passive: true });
-      onScroll();
+        slide.append(blur, img, cap);
+        stage.appendChild(slide);
 
-      /* ===== Modal de imagem ===== */
-      const modal = document.getElementById('imageModal');
-      const modalImg = document.getElementById('modalImage');
-      const closeBtn = modal.querySelector('.close');
+        const thumb = document.createElement('button');
+        thumb.className = 'thumb' + (i === 0 ? ' active' : '');
+        thumb.type = 'button';
+        thumb.setAttribute('aria-label', 'Ir para a foto ' + (i + 1));
+        const timg = document.createElement('img');
+        timg.src = m.src;
+        timg.alt = '';
+        timg.loading = 'lazy';
+        thumb.appendChild(timg);
+        thumb.addEventListener('click', () => go(i));
+        thumbsEl.appendChild(thumb);
 
-      function openModal(src) {
-        modalImg.src = src;
-        modal.style.display = 'block';
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeModal() {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        modalImg.src = '';
-        document.body.style.overflow = '';
-      }
-
-      document.querySelectorAll('.timeline-image img').forEach(img => {
-        if (!(img.getAttribute('src') || '').trim()) return;
-        img.addEventListener('click', () => openModal(img.src));
+        return slide;
       });
+      const thumbs = Array.from(thumbsEl.children);
 
-      closeBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      const pad = (n) => String(n).padStart(2, '0');
+
+      function go(i) {
+        current = (i + total) % total;
+        slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+        thumbs.forEach((t, idx) => t.classList.toggle('active', idx === current));
+        counter.textContent = pad(current + 1) + ' / ' + pad(total);
+        chapter.textContent = moments[current].chapter;
+        thumbs[current].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+      const nextSlide = () => go(current + 1);
+      const prevSlide = () => go(current - 1);
+
+      document.getElementById('next').addEventListener('click', nextSlide);
+      document.getElementById('prev').addEventListener('click', prevSlide);
+
+      // Teclado
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'block') closeModal();
+        if (document.getElementById('lightbox').classList.contains('open')) {
+          if (e.key === 'Escape') closeLightbox();
+          return;
+        }
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft')  prevSlide();
       });
+
+      // Toque (swipe)
+      let touchX = null;
+      stage.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+      stage.addEventListener('touchend', (e) => {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 45) (dx < 0 ? nextSlide : prevSlide)();
+        touchX = null;
+      }, { passive: true });
+
+      // Passar sozinho
+      const autoBtn = document.getElementById('autoplay');
+      let timer = null;
+      function toggleAuto() {
+        if (timer) {
+          clearInterval(timer); timer = null;
+          autoBtn.textContent = '▶ Passar sozinho';
+        } else {
+          timer = setInterval(nextSlide, 3500);
+          autoBtn.textContent = '❚❚ Pausar';
+        }
+      }
+      autoBtn.addEventListener('click', toggleAuto);
+
+      // Abrir álbum a partir da capa
+      document.getElementById('openAlbum').addEventListener('click', () => {
+        document.getElementById('albumScreen').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
+      });
+
+      // Lightbox
+      const lightbox = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lbImg');
+      function openLightbox() {
+        lbImg.src = moments[current].src;
+        lbImg.alt = moments[current].cap;
+        lightbox.classList.add('open');
+      }
+      function closeLightbox() { lightbox.classList.remove('open'); lbImg.src = ''; }
+      stage.addEventListener('click', (e) => { if (!e.target.closest('.arrow')) openLightbox(); });
+      document.getElementById('lbClose').addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+      // Pétalas/corações caindo
+      if (!reduceMotion) {
+        const petals = document.querySelector('.petals');
+        const chars = ['❤', '✨', '🤍'];
+        for (let i = 0; i < 12; i++) {
+          const s = document.createElement('span');
+          s.textContent = chars[i % chars.length];
+          s.style.left = Math.random() * 100 + '%';
+          s.style.animationDuration = (7 + Math.random() * 7) + 's';
+          s.style.animationDelay = (Math.random() * 8) + 's';
+          s.style.fontSize = (12 + Math.random() * 14) + 'px';
+          petals.appendChild(s);
+        }
+      }
+
+      go(0);
     });
   </script>
 </body>
